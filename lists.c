@@ -11,24 +11,20 @@ Node *head = NULL;
 // add a node to the list
 Node *addNode(int data)
 {
-    Node *new = NULL;
+    // allocate the new node
+    Node *new = malloc(sizeof(Node));
+    if (new == NULL)
+        return NULL;
+    
     // two cases:
 
     // if the list is empty.
     if (head == NULL)
     {
-        new = malloc(sizeof(Node));
-        if (new == NULL)
-            return NULL;
-        
         new->data = data;
         head = new;
         new->next = NULL;
     } else {
-        new = malloc(sizeof(Node));
-        if (new == NULL)
-            return NULL;
-        
         new->data = data;
         new->next = head;
         head = new;
@@ -52,10 +48,10 @@ int removeNode(int data)
                 head = current->next;
             } else {
                 prev->next = current->next;
-                free(current);
-                current = NULL;
             }
-
+            // deallocate the current node
+            free(current);
+            current = NULL;
             return 1;
         }
         prev = current;
