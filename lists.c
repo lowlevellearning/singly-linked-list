@@ -21,14 +21,15 @@ Node *addNode(int data)
         if (new == NULL)
             return NULL;
         
+        memset(new, 0x00, sizeof(Node));
         new->data = data;
         head = new;
-        new->next = NULL;
     } else {
         new = malloc(sizeof(Node));
         if (new == NULL)
             return NULL;
         
+        memset(new, 0x00, sizeof(Node));
         new->data = data;
         new->next = head;
         head = new;
@@ -50,6 +51,7 @@ int removeNode(int data)
             if (current == head)
             {
                 head = current->next;
+                free(current);
             } else {
                 prev->next = current->next;
                 free(current);
@@ -147,7 +149,6 @@ int main(int argc, char **argv)
                     break;
                 case 3:
                     // insert operation
-                    // remove operation
                     printf("What data should I insert?:\n");
                     scanf("%d", &arg1);
                     printf("What position?:\n");
