@@ -49,7 +49,9 @@ int removeNode(int data)
             // if current node is the list head
             if (current == head)
             {
-                head = current->next;
+                Node *new_head = head->next;
+                free(head);
+                head = new_head;
             } else {
                 prev->next = current->next;
                 free(current);
@@ -166,6 +168,12 @@ int main(int argc, char **argv)
         }
     }
     
+    // clean up memory when we're done
+    while (head != NULL) {
+        Node *new_head = head->next;
+        free(head);
+        head = new_head;
+    }
 
     return 0;
 }
