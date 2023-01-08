@@ -50,8 +50,8 @@ int removeNode(int data)
             // if current node is the list head
             if (current == head)
             {
-                free(head);
                 head = current->next;
+                free(current);
             } else {
                 prev->next = current->next;
                 free(current);
