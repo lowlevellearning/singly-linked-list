@@ -69,9 +69,9 @@ int removeNode(int data)
 Node *insertNode(int data, int position)
 {
     Node *current = head;
-    while (current != NULL && position != 0)
+    while (current != NULL && --position != 0)
     {
-        position--;
+        current = current->next;
     }
 
     if (position != 0)
