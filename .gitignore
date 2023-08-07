@@ -52,6 +52,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+
 # From https://github.com/github/gitignore/blob/4488915eec0b3a45b5c63ead28f286819c0917de/Global/VisualStudioCode.gitignore
 .vscode/*
 !.vscode/settings.json
@@ -65,6 +66,7 @@ dkms.conf
 
 # Built Visual Studio Code Extensions
 *.vsix
+
 
 # From https://github.com/github/gitignore/blob/4488915eec0b3a45b5c63ead28f286819c0917de/Global/macOS.gitignore
 # General
@@ -93,3 +95,8 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+
+# Added by the developer
+cmake-build-debug/
+.idea/

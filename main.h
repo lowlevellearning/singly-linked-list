@@ -4,13 +4,11 @@ wchar_t g_arrow = 0x2B95;
 
 typedef struct Node Node;
 
-typedef struct Head
-{
-    Node *pFirstNode;
+typedef struct Head {
+  Node *pFirstNode;
 } Head;
 
-struct Node
-{
-    int data;
-    Node *pNextNode;
+struct Node {
+  long data;
+  Node *pNextNode;
 };
