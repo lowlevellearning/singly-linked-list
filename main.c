@@ -1,9 +1,9 @@
+#include "main.h"
+
+#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <wchar.h>
-#include <locale.h>
-#include "main.h"
 
 void addNode(Head **ppHead, long data) {
   Node *pNode = malloc(sizeof(Node));
@@ -103,7 +103,8 @@ bool insertNode(Head **ppHead, long data, long index) {
     pCurrentNode = pCurrentNode->pNextNode;
 
     if (pCurrentNode == NULL) {
-      printf("Requested index is higher than the number of nodes in the list.\n");
+      printf(
+          "Requested index is higher than the number of nodes in the list.\n");
 
       return false;
     }
@@ -131,25 +132,16 @@ void printList(Head **ppHead) {
 
   Node *pCurrentNode = (*ppHead)->pFirstNode;
 
-  wprintf(L"%lc HEAD %lc %p %lc %lc ", g_v_line, g_v_line_dashed, (*ppHead)->pFirstNode, g_v_line, g_arrow);
+  wprintf(L"%lc HEAD %lc %p %lc %lc ", g_v_line, g_v_line_dashed,
+          (*ppHead)->pFirstNode, g_v_line, g_arrow);
 
   while (pCurrentNode != NULL) {
     if (pCurrentNode->pNextNode == NULL) {
-      wprintf(L"%lc %d %lc %p %lc %lc NULL",
-              g_v_line,
-              pCurrentNode->data,
-              g_v_line_dashed,
-              pCurrentNode->pNextNode,
-              g_v_line,
-              g_arrow);
+      wprintf(L"%lc %d %lc %p %lc %lc NULL", g_v_line, pCurrentNode->data,
+              g_v_line_dashed, pCurrentNode->pNextNode, g_v_line, g_arrow);
     } else {
-      wprintf(L"%lc %d %lc %p %lc %lc ",
-              g_v_line,
-              pCurrentNode->data,
-              g_v_line_dashed,
-              pCurrentNode->pNextNode,
-              g_v_line,
-              g_arrow);
+      wprintf(L"%lc %d %lc %p %lc %lc ", g_v_line, pCurrentNode->data,
+              g_v_line_dashed, pCurrentNode->pNextNode, g_v_line, g_arrow);
     }
 
     pCurrentNode = pCurrentNode->pNextNode;
@@ -175,7 +167,8 @@ bool isScanfInputValid(int input) {
   if (input == EOF || input != 1) {
     printf("Invalid input. Try again.\n");
 
-    while (fgetc(stdin) != '\n');
+    while (fgetc(stdin) != '\n')
+      ;
 
     return false;
   }
@@ -183,9 +176,7 @@ bool isScanfInputValid(int input) {
   return true;
 }
 
-void printOperationFailedMessage() {
-  printf("Operation failed.\n");
-}
+void printOperationFailedMessage() { printf("Operation failed.\n"); }
 
 int main() {
   setlocale(LC_CTYPE, "");
@@ -202,7 +193,7 @@ int main() {
     char *end;
     long inputOneLong;
     long inputTwoLong;
-    bool success = false;
+    bool success;
 
     printf("Select an option: ");
     numberOfAssignedInputItems = scanf("%s", optionIdInput);
@@ -214,7 +205,8 @@ int main() {
 
     switch (optionId) {
       // Add
-      case 1:printf("Enter the number you want to save in the node: ");
+      case 1:
+        printf("Enter the number you want to save in the node: ");
         numberOfAssignedInputItems = scanf("%s", inputOneString);
         inputOneLong = strtol(inputOneString, &end, 10);
 
@@ -227,7 +219,8 @@ int main() {
         break;
 
         // Remove
-      case 2:printf("Enter the number you want to remove from the list: ");
+      case 2:
+        printf("Enter the number you want to remove from the list: ");
         numberOfAssignedInputItems = scanf("%s", inputOneString);
         inputOneLong = strtol(inputOneString, &end, 10);
 
@@ -244,7 +237,8 @@ int main() {
         break;
 
         // Insert
-      case 3:printf("Enter the number you want to save in the node: ");
+      case 3:
+        printf("Enter the number you want to save in the node: ");
         numberOfAssignedInputItems = scanf("%s", inputOneString);
         inputOneLong = strtol(inputOneString, &end, 10);
 
@@ -269,14 +263,17 @@ int main() {
         break;
 
         // Print
-      case 4:printList(&pHead);
+      case 4:
+        printList(&pHead);
         break;
 
         // Quit
-      case 5:break;
+      case 5:
+        break;
 
         // Invalid
-      default:printf("Invalid option selected. Try again.\n");
+      default:
+        printf("Invalid option selected. Try again.\n");
         break;
     }
   }
