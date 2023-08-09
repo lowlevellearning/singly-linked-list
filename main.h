@@ -1,8 +1,16 @@
 #include <stddef.h>
 
-wchar_t g_v_line = 0x2503;
-wchar_t g_v_line_dashed = 0x2506;
-wchar_t g_arrow = 0x2B95;
+const wchar_t kVerticalLine = 0x2503;
+const wchar_t kVerticalLineDashed = 0x2506;
+const wchar_t kArrow = 0x2B95;
+const int kBase = 10;
+
+enum Commands { kAdd = 1, kRemove, kInsert, kPrint, kQuit };
+
+typedef struct NodeOptions {
+  long data;
+  long index;
+} NodeOptions;
 
 typedef struct Node Node;
 

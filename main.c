@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <wchar.h>
+#include <xlocale.h>
 
 void addNode(Head **ppHead, long data) {
   Node *pNode = malloc(sizeof(Node));
@@ -88,7 +89,7 @@ bool removeNode(Head **ppHead, long data) {
   return true;
 }
 
-bool insertNode(Head **ppHead, long data, long index) {
+bool insertNode(Head **ppHead, NodeOptions node_options) {
   if ((*ppHead) == NULL) {
     printf("Could not insert node into the list. List is empty.\n");
 
@@ -98,7 +99,7 @@ bool insertNode(Head **ppHead, long data, long index) {
   Node *pCurrentNode = (*ppHead)->pFirstNode;
   Node *pPreviousNode = pCurrentNode;
 
-  for (int i = 0; i < index; i++) {
+  for (int i = 0; i < node_options.index; i++) {
     pPreviousNode = pCurrentNode;
     pCurrentNode = pCurrentNode->pNextNode;
 
@@ -116,7 +117,7 @@ bool insertNode(Head **ppHead, long data, long index) {
     return false;
   }
 
-  pNode->data = data;
+  pNode->data = node_options.data;
   pNode->pNextNode = pCurrentNode;
   pPreviousNode->pNextNode = pNode;
 
@@ -132,16 +133,18 @@ void printList(Head **ppHead) {
 
   Node *pCurrentNode = (*ppHead)->pFirstNode;
 
-  wprintf(L"%lc HEAD %lc %p %lc %lc ", g_v_line, g_v_line_dashed,
-          (*ppHead)->pFirstNode, g_v_line, g_arrow);
+  wprintf(L"%lc HEAD %lc %p %lc %lc ", kVerticalLine, kVerticalLineDashed,
+          (*ppHead)->pFirstNode, kVerticalLine, kArrow);
 
   while (pCurrentNode != NULL) {
     if (pCurrentNode->pNextNode == NULL) {
-      wprintf(L"%lc %d %lc %p %lc %lc NULL", g_v_line, pCurrentNode->data,
-              g_v_line_dashed, pCurrentNode->pNextNode, g_v_line, g_arrow);
+      wprintf(L"%lc %d %lc %p %lc %lc NULL", kVerticalLine, pCurrentNode->data,
+              kVerticalLineDashed, pCurrentNode->pNextNode, kVerticalLine,
+              kArrow);
     } else {
-      wprintf(L"%lc %d %lc %p %lc %lc ", g_v_line, pCurrentNode->data,
-              g_v_line_dashed, pCurrentNode->pNextNode, g_v_line, g_arrow);
+      wprintf(L"%lc %d %lc %p %lc %lc ", kVerticalLine, pCurrentNode->data,
+              kVerticalLineDashed, pCurrentNode->pNextNode, kVerticalLine,
+              kArrow);
     }
 
     pCurrentNode = pCurrentNode->pNextNode;
@@ -167,8 +170,9 @@ bool isScanfInputValid(int input) {
   if (input == EOF || input != 1) {
     printf("Invalid input. Try again.\n");
 
-    while (fgetc(stdin) != '\n')
+    while (fgetc(stdin) != '\n') {
       ;
+    }
 
     return false;
   }
@@ -179,25 +183,27 @@ bool isScanfInputValid(int input) {
 void printOperationFailedMessage() { printf("Operation failed.\n"); }
 
 int main() {
-  setlocale(LC_CTYPE, "");
+  locale_t locale = newlocale(LC_CTYPE, "en_US", NULL);
+  uselocale(locale);
+
   Head *pHead = NULL;
   char *optionIdInput = malloc(sizeof(char));
   long optionId = -1;
-  char *inputOneString = malloc(sizeof(int));
-  char *inputTwoString = malloc(sizeof(int));
+  char *inputOneString = malloc(sizeof(char));
+  char *inputTwoString = malloc(sizeof(char));
 
   printMenu();
 
-  while (optionId != 5) {
-    int numberOfAssignedInputItems;
-    char *end;
-    long inputOneLong;
-    long inputTwoLong;
-    bool success;
+  while (optionId != kQuit) {
+    int numberOfAssignedInputItems = 0;
+    char *end = NULL;
+    long inputOneLong = 0;
+    long inputTwoLong = 0;
+    bool success = false;
 
     printf("Select an option: ");
     numberOfAssignedInputItems = scanf("%s", optionIdInput);
-    optionId = strtol(optionIdInput, &end, 10);
+    optionId = strtol(optionIdInput, &end, kBase);
 
     if (!isScanfInputValid(numberOfAssignedInputItems)) {
       continue;
@@ -205,10 +211,10 @@ int main() {
 
     switch (optionId) {
       // Add
-      case 1:
+      case kAdd:
         printf("Enter the number you want to save in the node: ");
         numberOfAssignedInputItems = scanf("%s", inputOneString);
-        inputOneLong = strtol(inputOneString, &end, 10);
+        inputOneLong = strtol(inputOneString, &end, kBase);
 
         if (!isScanfInputValid(numberOfAssignedInputItems)) {
           break;
@@ -219,10 +225,10 @@ int main() {
         break;
 
         // Remove
-      case 2:
+      case kRemove:
         printf("Enter the number you want to remove from the list: ");
         numberOfAssignedInputItems = scanf("%s", inputOneString);
-        inputOneLong = strtol(inputOneString, &end, 10);
+        inputOneLong = strtol(inputOneString, &end, kBase);
 
         if (!isScanfInputValid(numberOfAssignedInputItems)) {
           continue;
@@ -237,10 +243,10 @@ int main() {
         break;
 
         // Insert
-      case 3:
+      case kInsert:
         printf("Enter the number you want to save in the node: ");
         numberOfAssignedInputItems = scanf("%s", inputOneString);
-        inputOneLong = strtol(inputOneString, &end, 10);
+        inputOneLong = strtol(inputOneString, &end, kBase);
 
         if (!isScanfInputValid(numberOfAssignedInputItems)) {
           continue;
@@ -248,13 +254,14 @@ int main() {
 
         printf("Enter the index at which you want to add the node: ");
         numberOfAssignedInputItems = scanf("%s", inputTwoString);
-        inputTwoLong = strtol(inputOneString, &end, 10);
+        inputTwoLong = strtol(inputOneString, &end, kBase);
 
         if (!isScanfInputValid(numberOfAssignedInputItems)) {
           continue;
         }
 
-        success = insertNode(&pHead, inputOneLong, inputTwoLong);
+        success = insertNode(&pHead,
+                             (struct NodeOptions){inputOneLong, inputTwoLong});
 
         if (!success) {
           printOperationFailedMessage();
@@ -263,12 +270,12 @@ int main() {
         break;
 
         // Print
-      case 4:
+      case kPrint:
         printList(&pHead);
         break;
 
         // Quit
-      case 5:
+      case kQuit:
         break;
 
         // Invalid
@@ -282,6 +289,7 @@ int main() {
   free(optionIdInput);
   free(inputOneString);
   free(inputTwoString);
+  freelocale(locale);
 
   return 0;
 }
