@@ -15,10 +15,10 @@ typedef struct NodeOptions {
 typedef struct Node Node;
 
 typedef struct Head {
-  Node *pFirstNode;
+  Node *first_node;
 } Head;
 
 struct Node {
   long data;
-  Node *pNextNode;
+  Node *next_node;
 };

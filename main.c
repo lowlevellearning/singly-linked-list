@@ -6,53 +6,53 @@
 #include <wchar.h>
 #include <xlocale.h>
 
-void addNode(Head **ppHead, long data) {
-  Node *pNode = malloc(sizeof(Node));
+void AddNode(Head **head, long data) {
+  Node *node = malloc(sizeof(Node));
 
-  if (pNode == NULL) {
+  if (node == NULL) {
     return;
   }
 
-  pNode->data = data;
-  pNode->pNextNode = NULL;
+  node->data = data;
+  node->next_node = NULL;
 
-  if ((*ppHead) == NULL) {
-    (*ppHead) = malloc(sizeof(Head));
+  if ((*head) == NULL) {
+    (*head) = malloc(sizeof(Head));
 
-    if ((*ppHead) == NULL) {
-      free(pNode);
+    if ((*head) == NULL) {
+      free(node);
 
       return;
     }
 
-    (*ppHead)->pFirstNode = pNode;
+    (*head)->first_node = node;
 
     return;
   }
 
-  Node *pCurrentNode = (*ppHead)->pFirstNode;
+  Node *current_node = (*head)->first_node;
 
-  while (pCurrentNode->pNextNode != NULL) {
-    pCurrentNode = pCurrentNode->pNextNode;
+  while (current_node->next_node != NULL) {
+    current_node = current_node->next_node;
   }
 
-  pCurrentNode->pNextNode = pNode;
+  current_node->next_node = node;
 }
 
-bool removeNode(Head **ppHead, long data) {
-  if ((*ppHead) == NULL) {
+bool RemoveNode(Head **head, long data) {
+  if ((*head) == NULL) {
     printf("Operation failed. List is empty.\n");
 
     return false;
   }
 
-  Node *pCurrentNode = (*ppHead)->pFirstNode;
-  Node *pPreviousNode = pCurrentNode;
+  Node *current_node = (*head)->first_node;
+  Node *previous_node = current_node;
 
-  while (pCurrentNode->pNextNode != NULL) {
-    if (pCurrentNode->data != data) {
-      pPreviousNode = pCurrentNode;
-      pCurrentNode = pCurrentNode->pNextNode;
+  while (current_node->next_node != NULL) {
+    if (current_node->data != data) {
+      previous_node = current_node;
+      current_node = current_node->next_node;
 
       continue;
     }
@@ -60,50 +60,50 @@ bool removeNode(Head **ppHead, long data) {
     break;
   }
 
-  if (pCurrentNode->data != data) {
+  if (current_node->data != data) {
     printf("The entered number could not be found in the list.\n");
 
     return false;
   }
 
-  if (pCurrentNode == pPreviousNode && pCurrentNode->pNextNode == NULL) {
-    free(pCurrentNode);
-    free((*ppHead));
-    (*ppHead) = NULL;
+  if (current_node == previous_node && current_node->next_node == NULL) {
+    free(current_node);
+    free((*head));
+    (*head) = NULL;
 
     return true;
   }
 
-  if ((*ppHead)->pFirstNode == pCurrentNode) {
-    (*ppHead)->pFirstNode = pCurrentNode->pNextNode;
+  if ((*head)->first_node == current_node) {
+    (*head)->first_node = current_node->next_node;
 
-    free(pCurrentNode);
+    free(current_node);
 
     return true;
   }
 
-  pPreviousNode->pNextNode = pCurrentNode->pNextNode;
+  previous_node->next_node = current_node->next_node;
 
-  free(pCurrentNode);
+  free(current_node);
 
   return true;
 }
 
-bool insertNode(Head **ppHead, NodeOptions node_options) {
-  if ((*ppHead) == NULL) {
+bool InsertNode(Head **head, NodeOptions node_options) {
+  if ((*head) == NULL) {
     printf("Could not insert node into the list. List is empty.\n");
 
     return false;
   }
 
-  Node *pCurrentNode = (*ppHead)->pFirstNode;
-  Node *pPreviousNode = pCurrentNode;
+  Node *current_node = (*head)->first_node;
+  Node *previous_node = current_node;
 
   for (int i = 0; i < node_options.index; i++) {
-    pPreviousNode = pCurrentNode;
-    pCurrentNode = pCurrentNode->pNextNode;
+    previous_node = current_node;
+    current_node = current_node->next_node;
 
-    if (pCurrentNode == NULL) {
+    if (current_node == NULL) {
       printf(
           "Requested index is higher than the number of nodes in the list.\n");
 
@@ -111,49 +111,49 @@ bool insertNode(Head **ppHead, NodeOptions node_options) {
     }
   }
 
-  Node *pNode = malloc(sizeof(Node));
+  Node *node = malloc(sizeof(Node));
 
-  if (pNode == NULL) {
+  if (node == NULL) {
     return false;
   }
 
-  pNode->data = node_options.data;
-  pNode->pNextNode = pCurrentNode;
-  pPreviousNode->pNextNode = pNode;
+  node->data = node_options.data;
+  node->next_node = current_node;
+  previous_node->next_node = node;
 
   return true;
 }
 
-void printList(Head **ppHead) {
-  if ((*ppHead) == NULL) {
+void PrintList(Head **head) {
+  if ((*head) == NULL) {
     printf("List is empty.\n");
 
     return;
   }
 
-  Node *pCurrentNode = (*ppHead)->pFirstNode;
+  Node *current_node = (*head)->first_node;
 
   wprintf(L"%lc HEAD %lc %p %lc %lc ", kVerticalLine, kVerticalLineDashed,
-          (*ppHead)->pFirstNode, kVerticalLine, kArrow);
+          (*head)->first_node, kVerticalLine, kArrow);
 
-  while (pCurrentNode != NULL) {
-    if (pCurrentNode->pNextNode == NULL) {
-      wprintf(L"%lc %d %lc %p %lc %lc NULL", kVerticalLine, pCurrentNode->data,
-              kVerticalLineDashed, pCurrentNode->pNextNode, kVerticalLine,
+  while (current_node != NULL) {
+    if (current_node->next_node == NULL) {
+      wprintf(L"%lc %d %lc %p %lc %lc NULL", kVerticalLine, current_node->data,
+              kVerticalLineDashed, current_node->next_node, kVerticalLine,
               kArrow);
     } else {
-      wprintf(L"%lc %d %lc %p %lc %lc ", kVerticalLine, pCurrentNode->data,
-              kVerticalLineDashed, pCurrentNode->pNextNode, kVerticalLine,
+      wprintf(L"%lc %d %lc %p %lc %lc ", kVerticalLine, current_node->data,
+              kVerticalLineDashed, current_node->next_node, kVerticalLine,
               kArrow);
     }
 
-    pCurrentNode = pCurrentNode->pNextNode;
+    current_node = current_node->next_node;
   }
 
   printf("\n");
 }
 
-void printMenu() {
+void PrintMenu() {
   printf("Singly-linked list interactive CLI\n");
   printf("\n");
 
@@ -166,7 +166,7 @@ void printMenu() {
   printf("\n");
 }
 
-bool isScanfInputValid(int input) {
+bool IsScanfInputValid(int input) {
   if (input == EOF || input != 1) {
     printf("Invalid input. Try again.\n");
 
@@ -180,64 +180,64 @@ bool isScanfInputValid(int input) {
   return true;
 }
 
-void printOperationFailedMessage() { printf("Operation failed.\n"); }
+void PrintOperationFailedMessage() { printf("Operation failed.\n"); }
 
 int main() {
   locale_t locale = newlocale(LC_CTYPE, "en_US", NULL);
   uselocale(locale);
 
-  Head *pHead = NULL;
-  char *optionIdInput = malloc(sizeof(char));
-  long optionId = -1;
-  char *inputOneString = malloc(sizeof(char));
-  char *inputTwoString = malloc(sizeof(char));
+  Head *head = NULL;
+  char *option_id_input = malloc(sizeof(char));
+  long option_id = -1;
+  char *input_one_string = malloc(sizeof(char));
+  char *input_two_string = malloc(sizeof(char));
 
-  printMenu();
+  PrintMenu();
 
-  while (optionId != kQuit) {
-    int numberOfAssignedInputItems = 0;
+  while (option_id != kQuit) {
+    int number_of_assigned_input_items = 0;
     char *end = NULL;
-    long inputOneLong = 0;
-    long inputTwoLong = 0;
+    long input_one_long = 0;
+    long input_two_long = 0;
     bool success = false;
 
     printf("Select an option: ");
-    numberOfAssignedInputItems = scanf("%s", optionIdInput);
-    optionId = strtol(optionIdInput, &end, kBase);
+    number_of_assigned_input_items = scanf("%s", option_id_input);
+    option_id = strtol(option_id_input, &end, kBase);
 
-    if (!isScanfInputValid(numberOfAssignedInputItems)) {
+    if (!IsScanfInputValid(number_of_assigned_input_items)) {
       continue;
     }
 
-    switch (optionId) {
+    switch (option_id) {
       // Add
       case kAdd:
         printf("Enter the number you want to save in the node: ");
-        numberOfAssignedInputItems = scanf("%s", inputOneString);
-        inputOneLong = strtol(inputOneString, &end, kBase);
+        number_of_assigned_input_items = scanf("%s", input_one_string);
+        input_one_long = strtol(input_one_string, &end, kBase);
 
-        if (!isScanfInputValid(numberOfAssignedInputItems)) {
+        if (!IsScanfInputValid(number_of_assigned_input_items)) {
           break;
         }
 
-        addNode(&pHead, inputOneLong);
+        AddNode(&head, input_one_long);
 
         break;
 
         // Remove
       case kRemove:
         printf("Enter the number you want to remove from the list: ");
-        numberOfAssignedInputItems = scanf("%s", inputOneString);
-        inputOneLong = strtol(inputOneString, &end, kBase);
+        number_of_assigned_input_items = scanf("%s", input_one_string);
+        input_one_long = strtol(input_one_string, &end, kBase);
 
-        if (!isScanfInputValid(numberOfAssignedInputItems)) {
+        if (!IsScanfInputValid(number_of_assigned_input_items)) {
           continue;
         }
 
-        success = removeNode(&pHead, inputOneLong);
+        success = RemoveNode(&head, input_one_long);
 
         if (!success) {
-          printOperationFailedMessage();
+          PrintOperationFailedMessage();
         }
 
         break;
@@ -245,33 +245,33 @@ int main() {
         // Insert
       case kInsert:
         printf("Enter the number you want to save in the node: ");
-        numberOfAssignedInputItems = scanf("%s", inputOneString);
-        inputOneLong = strtol(inputOneString, &end, kBase);
+        number_of_assigned_input_items = scanf("%s", input_one_string);
+        input_one_long = strtol(input_one_string, &end, kBase);
 
-        if (!isScanfInputValid(numberOfAssignedInputItems)) {
+        if (!IsScanfInputValid(number_of_assigned_input_items)) {
           continue;
         }
 
         printf("Enter the index at which you want to add the node: ");
-        numberOfAssignedInputItems = scanf("%s", inputTwoString);
-        inputTwoLong = strtol(inputOneString, &end, kBase);
+        number_of_assigned_input_items = scanf("%s", input_two_string);
+        input_two_long = strtol(input_one_string, &end, kBase);
 
-        if (!isScanfInputValid(numberOfAssignedInputItems)) {
+        if (!IsScanfInputValid(number_of_assigned_input_items)) {
           continue;
         }
 
-        success = insertNode(&pHead,
-                             (struct NodeOptions){inputOneLong, inputTwoLong});
+        success = InsertNode(
+            &head, (struct NodeOptions){input_one_long, input_two_long});
 
         if (!success) {
-          printOperationFailedMessage();
+          PrintOperationFailedMessage();
         }
 
         break;
 
         // Print
       case kPrint:
-        printList(&pHead);
+        PrintList(&head);
         break;
 
         // Quit
@@ -285,10 +285,10 @@ int main() {
     }
   }
 
-  free(pHead);
-  free(optionIdInput);
-  free(inputOneString);
-  free(inputTwoString);
+  free(head);
+  free(option_id_input);
+  free(input_one_string);
+  free(input_two_string);
   freelocale(locale);
 
   return 0;
