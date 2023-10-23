@@ -1,5 +1,6 @@
 #include "main.h"
 
+#include <_xlocale.h>
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -202,6 +203,7 @@ int main() {
     bool success = false;
 
     printf("Select an option: ");
+    // NOLINTNEXTLINE(clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling)
     number_of_assigned_input_items = scanf("%s", option_id_input);
     option_id = strtol(option_id_input, &end, kBase);
 
@@ -213,6 +215,7 @@ int main() {
       // Add
       case kAdd:
         printf("Enter the number you want to save in the node: ");
+        // NOLINTNEXTLINE(clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling)
         number_of_assigned_input_items = scanf("%s", input_one_string);
         input_one_long = strtol(input_one_string, &end, kBase);
 
@@ -227,6 +230,7 @@ int main() {
         // Remove
       case kRemove:
         printf("Enter the number you want to remove from the list: ");
+        // NOLINTNEXTLINE(clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling)
         number_of_assigned_input_items = scanf("%s", input_one_string);
         input_one_long = strtol(input_one_string, &end, kBase);
 
@@ -245,6 +249,7 @@ int main() {
         // Insert
       case kInsert:
         printf("Enter the number you want to save in the node: ");
+        // NOLINTNEXTLINE(clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling)
         number_of_assigned_input_items = scanf("%s", input_one_string);
         input_one_long = strtol(input_one_string, &end, kBase);
 
@@ -253,6 +258,7 @@ int main() {
         }
 
         printf("Enter the index at which you want to add the node: ");
+        // NOLINTNEXTLINE(clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling)
         number_of_assigned_input_items = scanf("%s", input_two_string);
         input_two_long = strtol(input_one_string, &end, kBase);
 

@@ -10,3 +10,4 @@ modernize-*,
 performance-*,
 portability-*,
 readability-*'
+FormatStyle: file

@@ -1,0 +1,14 @@
+name: ClangTidy
+on: pull_request
+jobs:
+  ClangTidy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ZedThree/clang-tidy-review@v0.14.0
+        id: review
+        with:
+          config_file: '.clang-tidy'
+          cmake_command: cmake . -D CMAKE_C_COMPILER=clang-16
+      - if: steps.review.outputs.total_comments > 0
+        run: exit 1

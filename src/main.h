@@ -1,4 +1,4 @@
-#include <stddef.h>
+#include <wchar.h>
 
 const wchar_t kVerticalLine = 0x2503;
 const wchar_t kVerticalLineDashed = 0x2506;
