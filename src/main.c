@@ -7,8 +7,8 @@
 #include <wchar.h>
 #include <xlocale.h>
 
-void AddNode(Head **head, long data) {
-  Node *node = malloc(sizeof(Node));
+void AddNode(Head** head, long data) {
+  Node* node = malloc(sizeof(Node));
 
   if (node == NULL) {
     return;
@@ -31,7 +31,7 @@ void AddNode(Head **head, long data) {
     return;
   }
 
-  Node *current_node = (*head)->first_node;
+  Node* current_node = (*head)->first_node;
 
   while (current_node->next_node != NULL) {
     current_node = current_node->next_node;
@@ -40,15 +40,15 @@ void AddNode(Head **head, long data) {
   current_node->next_node = node;
 }
 
-bool RemoveNode(Head **head, long data) {
+bool RemoveNode(Head** head, long data) {
   if ((*head) == NULL) {
     printf("Operation failed. List is empty.\n");
 
     return false;
   }
 
-  Node *current_node = (*head)->first_node;
-  Node *previous_node = current_node;
+  Node* current_node = (*head)->first_node;
+  Node* previous_node = current_node;
 
   while (current_node->next_node != NULL) {
     if (current_node->data != data) {
@@ -90,15 +90,15 @@ bool RemoveNode(Head **head, long data) {
   return true;
 }
 
-bool InsertNode(Head **head, NodeOptions node_options) {
+bool InsertNode(Head** head, NodeOptions node_options) {
   if ((*head) == NULL) {
     printf("Could not insert node into the list. List is empty.\n");
 
     return false;
   }
 
-  Node *current_node = (*head)->first_node;
-  Node *previous_node = current_node;
+  Node* current_node = (*head)->first_node;
+  Node* previous_node = current_node;
 
   for (int i = 0; i < node_options.index; i++) {
     previous_node = current_node;
@@ -112,7 +112,7 @@ bool InsertNode(Head **head, NodeOptions node_options) {
     }
   }
 
-  Node *node = malloc(sizeof(Node));
+  Node* node = malloc(sizeof(Node));
 
   if (node == NULL) {
     return false;
@@ -125,14 +125,14 @@ bool InsertNode(Head **head, NodeOptions node_options) {
   return true;
 }
 
-void PrintList(Head **head) {
+void PrintList(Head** head) {
   if ((*head) == NULL) {
     printf("List is empty.\n");
 
     return;
   }
 
-  Node *current_node = (*head)->first_node;
+  Node* current_node = (*head)->first_node;
 
   wprintf(L"%lc HEAD %lc %p %lc %lc ", kVerticalLine, kVerticalLineDashed,
           (*head)->first_node, kVerticalLine, kArrow);
@@ -187,17 +187,17 @@ int main() {
   locale_t locale = newlocale(LC_CTYPE, "en_US", NULL);
   uselocale(locale);
 
-  Head *head = NULL;
-  char *option_id_input = malloc(sizeof(char));
+  Head* head = NULL;
+  char* option_id_input = malloc(sizeof(char));
   long option_id = -1;
-  char *input_one_string = malloc(sizeof(char));
-  char *input_two_string = malloc(sizeof(char));
+  char* input_one_string = malloc(sizeof(char));
+  char* input_two_string = malloc(sizeof(char));
 
   PrintMenu();
 
   while (option_id != kQuit) {
     int number_of_assigned_input_items = 0;
-    char *end = NULL;
+    char* end = NULL;
     long input_one_long = 0;
     long input_two_long = 0;
     bool success = false;
